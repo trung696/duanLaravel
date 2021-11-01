@@ -26,12 +26,13 @@ class Comment extends Component
             'user_id' => $user_id,
             'product_id' => $this->product_id,
         ]);
-        $this->reset();
+        $this->reset('content');
     }
 
     public function loadMore()
     {
         $this->perPage = $this->perPage + 5;
+        if ($this->perPage > $this->count) $this->perPage = $this->count;
     }
 
     public function render()

@@ -16,7 +16,7 @@ class AuthAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (session('id_role') === '1' || session('id_role') === '2') {
+        if (session('id_role') === '1' || session('id_role') === '2'|| session('id_role') === '3') {
             return $next($request);
         } else {
             session()->flush();

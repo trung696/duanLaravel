@@ -6,10 +6,12 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Categories extends Component
 {
     use WithFileUploads;
+    use WithPagination;
     public $name;
     public $slug;
     public $image;
@@ -30,6 +32,7 @@ class Categories extends Component
      */
     public function create()
     {
+        dd($this->photo);
         $this->validate();
         if($this->file_name){
             $this->file_name = $this->image->store('/category', 'public');
@@ -90,7 +93,6 @@ class Categories extends Component
         $this->modelId = $id;
         $this->loadModel();
         $this->photo = $this->image;
-
     }
 
     /**
@@ -113,7 +115,7 @@ class Categories extends Component
     {
         return [
             'name' => $this->name,
-            'image' => $this->image,
+            'image' => $this->file_name,
             'slug' => $this->slug
         ];
     }

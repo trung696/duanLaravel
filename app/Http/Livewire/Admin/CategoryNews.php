@@ -6,10 +6,13 @@ use App\Models\CategoryNew;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class CategoryNews extends Component
 {
     use WithFileUploads;
+    use WithPagination;
+
     public $name;
     public $slug;
     public $image;

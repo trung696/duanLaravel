@@ -31,14 +31,6 @@
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Title
                             </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Đường dẫn
-                            </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Mieu ta ngan
-                            </th>
 {{--                            <th--}}
 {{--                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">--}}
 {{--                                Noi dung--}}
@@ -68,12 +60,6 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $blog->title }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $blog->slug }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $blog->short_description }}
                                 </td>
 {{--                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">--}}
 {{--                                    {{ $blog->detail_description }}--}}

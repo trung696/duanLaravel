@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('status')->default(1)->comment('1:order-2:done-3:cancel');
             $table->string('note')->nullable();
             $table->bigInteger('id_user')->nullable();
+            $table->bigInteger('id_use_order')->nullable();
             $table->date('book_date')->nullable();
             $table->time('time_shift')->nullable();
             $table->timestamps();

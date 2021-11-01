@@ -32,7 +32,7 @@ class Comments extends Component
         $comments = DB::table('comments')
             ->join('products', 'products.id', '=', 'comments.product_id')
             ->where('products.name','like', '%' . $this->search . '%')
-            ->select('comments.product_id', 'products.name','products.feature_img_path',
+            ->select('comments.product_id', 'products.name','products.feature_img','products.slug',
                 DB::raw('count(comments.product_id) as total_cmt'))
             ->groupBy('comments.product_id')->limit(8)
             ->get();

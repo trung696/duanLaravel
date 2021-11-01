@@ -6,22 +6,29 @@ use App\Models\Blog;
 use App\Models\Order;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class AddBlog extends Component
 {
+    use WithFileUploads;
+
     public $title;
     public $slug;
     public $short_description;
     public $detail_description;
     public $id_user;
     public $id_cate;
+    public $file_name;
+    public $image;
 
     public function create($id)
     {
         $this->validate();
+        $this->file_name = $this->image->store('/blogs', 'public');
         Blog::create([
             'title' => $this->title,
             'slug' => $this->slug,
+            'image' => $this->file_name,
             'short_description' => $this->short_description,
             'detail_description' => $this->detail_description,
             'id_user' => $id,
@@ -39,11 +46,13 @@ class AddBlog extends Component
     {
         $this->slug = Str::slug($this->title);
     }
+
     protected function rules()
     {
         return [
             'title' => 'required',
             'slug' => 'required',
+            'image' => ['required'],
         ];
     }
 
@@ -53,7 +62,8 @@ class AddBlog extends Component
      */
     protected $messages = [
         'title.required' => 'Tên không được để trống.',
-        'slug.required' => 'Slug không được để trống.',
+        'slug.required' => 'slug không được để trống.',
+        'image.required' => 'image không được để trống.',
     ];
 
     /**

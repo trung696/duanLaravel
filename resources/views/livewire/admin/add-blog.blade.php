@@ -33,6 +33,19 @@
         @error('slug') <span class="text-red-500">{{ $message }}</span>@enderror
     </div>
     <div class="mt-4">
+        <input type="file" class="hidden"
+               wire:model="image"
+               x-ref="photo"/>
+        <x-jet-label for="photo" value="{{ __('Photo') }}"/>
+        @if($image)
+            <img src="{{ $image->temporaryUrl() }}" class="rounded-2 h-20 w-20 object-cover">
+        @endif
+        <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click="$refs.photo.click()">
+            {{ __('Select A New Photo') }}
+        </x-jet-secondary-button>
+        @error('image') <span class="text-red-500">{{ $message }}</span> @enderror
+    </div>
+    <div class="mt-4">
         <x-jet-label for="title" value="{{ __('Danh mục bai viet') }}"/>
         <select wire:model="id_cate"
                 class="form-select block w-full border-gray-300 focus:border-indigo-300  focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
@@ -52,83 +65,36 @@
     </div>
     <div class="mb-2" wire:ignore>
         <label class="block font-medium text-sm text-gray-700" for="page-text-editor">Noi dung</label>
-        <textarea class="detail_description form-input rounded-md shadow-sm mt-1 block w-full " id="detail_description"
-                  name="detail_description" rows="20"
-                  wire:model.debounce.9999999ms="detail_description"
-                  wire:key="detail_description"
-                  x-data
-                  x-ref="detail_description"
-                  x-init="
-                    tinymce.init({
-                         path_absolute: '/',
-                         selector: 'textarea.detail_description',
-                         plugins: [
-                              'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                               'searchreplace wordcount visualblocks visualchars code fullscreen ',
-                               'insertdatetime media nonbreaking save table directionality',
-                               'emoticons template paste textpattern  imagetools help  '
-                                ],
-                                 toolbar: 'insertfile undo redo | styleselect | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | help ',
-                                 relative_urls: false,
-                                 remove_script_host : false,
-                                 document_base_url: '{{config('app.url')}}/',
-                                 language: 'en',
-                                 setup: function (editor) {
-                                         editor.on('init change', function () {
-                                                   editor.save();
-                                           });
-                                editor.on('change', function (e) {
-                                         @this.set('detail_description', editor.getContent());
-                                 });
-                                  },
-                                  });
-                                 ">
-        </textarea>
+        <textarea id="myTextarea" ></textarea>
     </div>
 </div>
-{{--<script>--}}
-{{--    tinymce.init({--}}
-{{--        selector: 'textarea.detail_description',--}}
+<script src="https://cdn.tiny.cloud/1/la76yyzpi4abh83rxl38u8xjwfo0qki3b7fqqu57ic7qocxh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: '#myTextarea',
 
-{{--        image_class_list: [--}}
-{{--            {title: 'img-responsive', value: 'img-responsive'},--}}
-{{--        ],--}}
-{{--        height: 700,--}}
-{{--        setup: function (editor) {--}}
-{{--            editor.on('init change', function () {--}}
-{{--                editor.save();--}}
-{{--            });--}}
-{{--        },--}}
-{{--        plugins: [--}}
-{{--            "advlist autolink lists link image charmap print preview anchor",--}}
-{{--            "searchreplace visualblocks code fullscreen",--}}
-{{--            "insertdatetime media table contextmenu paste imagetools"--}}
-{{--        ],--}}
-{{--        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image ",--}}
-
-{{--        image_title: true,--}}
-{{--        automatic_uploads: true,--}}
-{{--        images_upload_url: '/upload',--}}
-{{--        file_picker_types: 'image',--}}
-{{--        file_picker_callback: function(cb, value, meta) {--}}
-{{--            var input = document.createElement('input');--}}
-{{--            input.setAttribute('type', 'file');--}}
-{{--            input.setAttribute('accept', 'image/*');--}}
-{{--            input.onchange = function() {--}}
-{{--                var file = this.files[0];--}}
-
-{{--                var reader = new FileReader();--}}
-{{--                reader.readAsDataURL(file);--}}
-{{--                reader.onload = function () {--}}
-{{--                    var id = 'blobid' + (new Date()).getTime();--}}
-{{--                    var blobCache =  tinymce.activeEditor.editorUpload.blobCache;--}}
-{{--                    var base64 = reader.result.split(',')[1];--}}
-{{--                    var blobInfo = blobCache.create(id, file, base64);--}}
-{{--                    blobCache.add(blobInfo);--}}
-{{--                    cb(blobInfo.blobUri(), { title: file.name });--}}
-{{--                };--}}
-{{--            };--}}
-{{--            input.click();--}}
-{{--        }--}}
-{{--    });--}}
-{{--</script>--}}
+        height: 500,
+        plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'table emoticons template paste help'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+            'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+        },
+        menubar: 'favs file edit view insert format tools table help',
+        content_css: 'css/content.css',
+        forced_root_block: false,
+        setup: function (editor) {
+            editor.on('init change', function () {
+                editor.save();
+            });
+            editor.on('change', function (e) {
+                @this.set('detail_description', editor.getContent());
+            });
+        }
+    });
+</script>

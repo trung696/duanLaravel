@@ -11,7 +11,8 @@ class Sliders extends Component
     use WithFileUploads;
 
     public $name;
-    public $image;
+    public $url_image;
+    public $urL_link;
     public $modalFormVisible;
     public $modelId;
     public $image_current;
@@ -21,8 +22,8 @@ class Sliders extends Component
     {
 //        dd(2);
         $this->validate();
-        $this->image = $this->image_current->store('slider', 'public');
-        DB::table('sliders')->insertGetId($this->modelData());
+        $this->url_image = $this->image_current->store('slider', 'public');
+
         $this->reset();
         $this->modalFormVisible = false;
         session()->flash('message', 'Thêm sản phẩm thành công');
@@ -70,7 +71,7 @@ class Sliders extends Component
         $this->modalFormVisible = true;
         $this->modelId = $id;
         $this->loadModel();
-        $this->image = $this->image_current;
+        $this->url_image = $this->image_current;
     }
 
     /**
@@ -97,7 +98,8 @@ class Sliders extends Component
     {
         return [
             'name' => $this->name,
-            'image' => $this->image
+            'url_image' => $this->url_image,
+            'urL_link' => $this->urL_link
         ];
     }
 

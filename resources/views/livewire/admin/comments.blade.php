@@ -26,6 +26,10 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Link Sản phẩm
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Hình ảnh
                             </th>
                             <th scope="col"
@@ -43,8 +47,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $cmt->name }}
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                                    <a href="{{ route('product.detail', ['slug' => $cmt->slug]) }}">{{ $cmt->slug }}</a>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <img src="{{ asset('storage/'.$cmt->feature_img_path) }}" width="100px">
+                                    <img src="{{ asset('storage/'.$cmt->feature_img) }}" width="100px">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $cmt->total_cmt }}

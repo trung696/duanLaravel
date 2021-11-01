@@ -46,9 +46,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $sli->name }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <img src="{{ asset('storage/'.$sli->image) }}" width="150px">
-                                </td>
+{{--                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">--}}
+{{--                                    <img src="{{ asset('storage/'.$sli->url_image) }}" width="150px">--}}
+{{--                                </td>--}}
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="#" wire:click="updateShowModal({{$sli->id}})"
                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
@@ -85,13 +85,18 @@
                 @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
+                <x-jet-label for="url_link" value="{{ __('URL link') }}"/>
+                <x-jet-input id="url_link" class="block mt-1 w-full" type="text" wire:model="urL_link" required/>
+                @error('url_link') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+            <div class="mt-4">
                 <input type="file" class="hidden"
                        wire:model="image_current"
                        x-ref="photo"/>
                 <x-jet-label for="photo" value="{{ __('Photo') }}"/>
-                @if ($image && $image == $image_current)
+                @if($url_image && $url_image == $image_current)
                     <img src="{{ asset('storage/' . $image_current) }}" class="rounded-2 h-20 w-20 object-cover">
-                @elseif($image != $image_current)
+                @elseif($url_image != $image_current)
                     <img src="{{ $image_current->temporaryUrl() }}" class="rounded-2 h-20 w-20 object-cover">
                 @endif
                 <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click="$refs.photo.click()">

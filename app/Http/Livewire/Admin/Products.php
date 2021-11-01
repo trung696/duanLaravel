@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Products extends Component
 {
     use WithFileUploads;
+    use WithPagination;
 
     public $name;
     public $slug;
@@ -45,14 +47,12 @@ class Products extends Component
         $this->validate();
 //        dd(2);
         $this->file_name = $this->feature_img->store('/product', 'public');
-        Product::create($this->modelData());
-        $pr = Product::where('name', $this->name)->first();
-//        dd($pr->id);
+        $pr = DB::table('products')->insertGetId($this->modelData());
         foreach ($this->photos as $photo) {
             $this->file_name_photo = $photo->store('/product_image', 'public');
             ProductImage::create([
                 'image_path' => $photo->store('/product_image', 'public'),
-                'id_product' => $pr->id
+                'id_product' => $pr
             ]);
         }
         $this->reset();
@@ -109,15 +109,6 @@ class Products extends Component
         Product::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         session()->flash('message', 'Xóa sản phẩm thành công');
-
-    }
-
-    /**
-     * show form create categories
-     */
-    public function createShowModal()
-    {
-        $this->modalFormVisible = true;
 
     }
 
@@ -244,8 +235,9 @@ class Products extends Component
      */
     public function read()
     {
-        return Product::where('name', 'like', '%' . $this->search . '%')->paginate(8);
-
+        return Product::where('name', 'like', '%' . $this->search . '%')
+            ->orderByDesc('created_at')
+            ->paginate(8);
     }
 
     public function render()

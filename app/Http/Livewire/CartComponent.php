@@ -24,7 +24,7 @@ class CartComponent extends Component
     public function destroy($row_id)
     {
         Cart::remove($row_id);
-        session()->flash('success' , 'xoa thanh cong');
+        session()->flash('success' , 'xóa thành công');
     }
     public function render()
     {

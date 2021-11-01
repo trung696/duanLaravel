@@ -12,7 +12,7 @@ class ShopComponent extends Component
     public function store($product_id, $product_name, $product_price, $product_img)
     {
       Cart::add($product_id, $product_name, 1, $product_price, ['img'=> $product_img] )->associate('App\Models\Product');
-      session()->flash('message', 'Da them vao gio hang');
+      session()->flash('message', 'Đã thêm vào giỏ hàng');
       return redirect()->route('product.cart');
     }
 

@@ -1,84 +1,57 @@
 <div class="wrap-review-form">
-    <div id="comments">
-        @if($count > 0)
-            <p class="woocommerce-Reviews-title"><span>{{ $count }} binh luan</span></p>
-
-            <ol class="commentlist">
-                @foreach($comments as $cmt)
-                    <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1"
-                        id="li-comment-20">
-                        <div id="comment-20" class="comment_container">
-
-                            <img alt="" src="{{ asset('storage/' . $cmt->user->profile_photo_path) }}" height="80" width="80">
-
-                            <div class="comment-text">
-                                {{--                        <div class="star-rating">--}}
-                                {{--                            <span class="width-80-percent">Rated <strong class="rating">5</strong> out of 5</span>--}}
-                                {{--                        </div>--}}
-                                <p class="meta">
-                                    <strong class="woocommerce-review__author">{{ $cmt->user->name }}</strong>
-                                    <span class="woocommerce-review__dash">–</span>
-                                    <time class="woocommerce-review__published-date"
-                                          datetime="2008-02-14 20:00">{{ $cmt->created_at }}
-                                    </time>
-                                </p>
-                                <div class="description">
-                                    <p class="">{{ $cmt->content }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                @endforeach
-            </ol>
-        @endif
-    </div><!-- #comments -->
     <div id="review_form_wrapper">
         <div id="review_form">
             <div id="respond" class="comment-respond">
 
-                <form class="comment-form">
-
-                    {{--                    <div class="comment-form-rating">--}}
-                    {{--                        <span>Your rating</span>--}}
-                    {{--                        <p class="stars">--}}
-
-                    {{--                            <label for="rated-1"></label>--}}
-                    {{--                            <input type="radio" id="rated-1" name="rating" value="1">--}}
-                    {{--                            <label for="rated-2"></label>--}}
-                    {{--                            <input type="radio" id="rated-2" name="rating" value="2">--}}
-                    {{--                            <label for="rated-3"></label>--}}
-                    {{--                            <input type="radio" id="rated-3" name="rating" value="3">--}}
-                    {{--                            <label for="rated-4"></label>--}}
-                    {{--                            <input type="radio" id="rated-4" name="rating" value="4">--}}
-                    {{--                            <label for="rated-5"></label>--}}
-                    {{--                            <input type="radio" id="rated-5" name="rating" value="5"--}}
-                    {{--                                   checked="checked">--}}
-                    {{--                        </p>--}}
-                    {{--                    </div>--}}
-                    @if($count > 5)
-                        <p class="text-center " style="cursor: pointer" wire:click="loadMore">Xem them</p>
-                    @endif
-                    <p class="comment-form-comment">
-                        <label for="comment">Your review <span class="required">*</span>
-                        </label>
-                        <textarea id="comment" name="comment" wire:model.lazy="content" cols="45"
-                                  rows="8"></textarea>
-                    </p>
-                    <p class="form-submit">
-                        <button class="btn btn-danger" wire:click.prevent="create({{ Auth::id() }})"
-                                wire:loading.attr="disabled"> Comment
+                <section class="rounded-b-lg  mt-4 ">
+                    <form action="/" accept-charset="UTF-8" method="post"><input type="hidden">
+                        <textarea wire:model="content"
+                                  class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
+                                  placeholder="Ask questions here." cols="6" rows="2" id="comment_content"
+                                  spellcheck="false"></textarea>
+                        <button
+                            wire:click.prevent="create({{ Auth::id() }})"
+                            wire:loading.attr="disabled"
+                            class="font-bold py-2 px-4 w-full bg-purple-400 text-lg text-white shadow-md rounded-lg ">
+                            Bình luận
                         </button>
-                    </p>
-                </form>
+                    </form>
 
+                    <div id="task-comments" class="pt-4">
+                        <!--     comment-->
+                        <p
+                           class="p-4 text-gray-600 text-sm text-center md:text-left ">({{ $count }} bình luận)</p>
+                        @foreach($comments as $cmt)
+                            <div
+                                class="bg-white rounded-lg p-3  flex flex-col justify-center items-center md:items-start shadow-lg mb-4">
+                                <div class="flex flex-row justify-center mr-2">
+                                    <img alt="avatar" width="48" height="48"
+                                         class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
+                                         src="{{  asset('storage/' . $cmt->user->profile_photo_path) }}">
+                                    <h3 class="text-purple-600 font-semibold text-lg text-center md:text-left ">
+                                        @ {{ $cmt->user->name }}</h3>
+                                    <span class="mx-2">–</span>
+                                    <time>{{ \Carbon\Carbon::parse($cmt->created_at)->format('d/m/Y h:m') }}</time>
+                                </div>
+                                <p style="width: 90%"
+                                   class="text-gray-600 text-lg text-center md:text-left ">{{ $cmt->content }} </p>
+
+                            </div>
+                    @endforeach
+                    <!--  comment end-->
+                    </div>
+
+                @if($count > 5 && $perPage < $count)
+                        <div class="text-center mb-3">
+                            <button
+                                class="text-center px-2 rounded-md text-blue-500 focus:outline-none hover:bg-gray-300"
+                                wire:click="loadMore">Xem them
+                            </button>
+                        </div>
+                    @endif
+                </section>
             </div><!-- .comment-respond-->
         </div><!-- #review_form -->
     </div><!-- #review_form_wrapper -->
-    {{--    <script type="text/javascript">--}}
-    {{--        window.onscroll = function(ev) {--}}
-    {{--            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {--}}
-    {{--                window.livewire.emit('load-more');--}}
-    {{--            }--}}
-    {{--        };--}}
-    {{--    </script>--}}
+
 </div>
